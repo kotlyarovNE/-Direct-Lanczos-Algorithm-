@@ -1,0 +1,94 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <math.h>
+
+
+
+
+int main(){
+
+    int n = 4, i, j, N;
+    int z, d, k;
+    N = (n+1)*(n+2)/2;
+
+    double a[N][N];
+    for(i = 0; i < N; ++i)
+        for(j = 0; j < N; ++j)
+           a[i][j] = 0.0;
+        
+
+    
+
+    
+    //start algorithm!
+
+    a[0][0] = 2;
+    a[n][n] = 2;
+    a[0][1] = 1;
+    a[n][n-1] = 1;
+
+    a[0][n+1] = 1;
+    a[n][2*n] = 1;
+    a[n+1][0] = 1;
+    a[2*n][n] = 1;
+
+    for(i = 1; i <= n-1; i++){
+        a[i][i] = 6;
+        a[i][i-1] = 1;
+        a[i][i+1] = 1;
+
+        a[i][i+n+1] = 2;
+        a[i][i+n] = 2;
+        a[i+n+1][i] = 2;
+        a[i+n][i] = 2;
+    }
+
+    
+    for(i = 0; i <= n-2; i++){
+        z = n + 1 - (i*(i-2*n-1))/2;
+        d = z + n - (i+1);
+        //printf("z, d: (%d, %d);  \n", z,d);
+        a[z][z] = 6;
+        a[d][d] = 6;
+        a[z][z+1] = 2;
+        a[d][d-1] = 2;
+
+        a[z][z+n-i] = 1;
+        a[d][d+n-1-i] = 1;
+        a[z+n-i][z] = 1;
+        a[d+n-1-i][d] = 1;
+        
+        
+        
+        for(j = z+1; j <= d-1; j++){
+            a[j][j] = 12;
+            a[j][j+1] = 2;
+            a[j][j-1] = 2;
+
+            a[j][j+n-i] = 2;
+            a[j][j+n-i-1] = 2;
+            a[j+n-i][j] = 2;
+            a[j+n-i-1][j] = 2;
+        }
+        
+        
+    }
+    
+    a[N-1][N-1] = 2;
+
+    //end algorithm!
+    int count = 0, rez = (7*n*n+9*n+2)/2;
+    for(i = 0; i < N; ++i){
+        for(j = 0; j < N; ++j){
+            //printf("%.03f ", a[i][j]);
+            if(a[i][j]>0)
+                count++;
+        }
+        //printf("\n");
+    }
+    printf("count NE : %d\n", count);
+    printf("count NE : %d", rez);
+    
+    return 0;
+}
